@@ -1,6 +1,5 @@
-use crate::{Actuator, Publisher, Sensor, Sound, Switch};
-use std::borrow::Borrow;
 use std::process::{Command, Output};
+use crate::{Actuator, Publisher, Sensor};
 
 pub struct Terminal;
 
@@ -8,7 +7,7 @@ impl Terminal {
     fn run_command(&self, command: &str) -> Result<Output, &'static str> {
         let mut command_iter = command.split_whitespace();
 
-        let mut command_name: String;
+        let command_name: String;
 
         match command_iter.next() {
             Some(val) => command_name = val.clone().to_string(),
