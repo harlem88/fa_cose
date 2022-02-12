@@ -1,18 +1,24 @@
 use structopt::StructOpt;
 use fa_cose::collect;
-use fa_cose::terminal::Terminal;
+use fa_cose::config::parse_config;
 use fa_cose::file::FileHandler;
+use fa_cose::terminal::Terminal;
 
 #[derive(Debug, StructOpt)]
 struct Cli {
-    file: String,
+    config_file: String,
 }
 
 fn do_main(args: Cli) {
     println!("=== FA COSE ===");
 
-    if !args.file.is_empty() {
-        collect(&args.file, FileHandler, Terminal);
+    if !args.config_file.is_empty() {
+        let sensors = parse_config(&args.config_file);
+        if sensors.is_ok() {
+            for file in sensors.unwrap().files {
+                collect(&file.get_abs_path(), FileHandler, Terminal);
+            }
+        }
     }
 }
 
