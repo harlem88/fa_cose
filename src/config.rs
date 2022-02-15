@@ -28,10 +28,13 @@ pub fn parse_config(config_file: &str) -> Result<Sensors, &'static str> {
 
 impl File {
     fn new(name: &str, path: &str) -> File {
-        File { name: name.clone().to_string(), path: path.clone().to_string() }
+        File {
+            name: name.clone().to_string(),
+            path: path.clone().to_string(),
+        }
     }
 
-    pub fn get_abs_path(&self) -> String{
+    pub fn get_abs_path(&self) -> String {
         let mut abs_path = self.path.clone();
         abs_path.push_str("/");
         abs_path.push_str(self.name.clone().as_str());
@@ -42,13 +45,15 @@ impl File {
 fn parse_sensor_file(doc: &yaml::Yaml) -> Option<File> {
     match *doc {
         yaml::Yaml::Hash(ref v) => {
-            let name = v.get(&Yaml::String("name".to_string())).map(
-                |name| name.as_str()
-            ).unwrap_or(None);
+            let name = v
+                .get(&Yaml::String("name".to_string()))
+                .map(|name| name.as_str())
+                .unwrap_or(None);
 
-            let path = v.get(&Yaml::String("path".to_string())).map(
-                |name| name.as_str()
-            ).unwrap_or(None);
+            let path = v
+                .get(&Yaml::String("path".to_string()))
+                .map(|name| name.as_str())
+                .unwrap_or(None);
 
             if name.is_some() && path.is_some() {
                 Some(File::new(name.unwrap(), path.unwrap()))
@@ -56,7 +61,7 @@ fn parse_sensor_file(doc: &yaml::Yaml) -> Option<File> {
                 None
             }
         }
-        _ => { None }
+        _ => None,
     }
 }
 
@@ -84,4 +89,3 @@ fn parse_sensors(doc: &yaml::Yaml) -> Option<Sensors> {
     }
     Some(sensors)
 }
-

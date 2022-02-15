@@ -1,3 +1,5 @@
 # fa_cose in Rust
 
-It is just another sofware for collecting data from sensors and etc.
+![build](https://github.com/harlem88/fa_cose/actions/workflows/build.yaml/badge.svg)
+
+It is just another software for collecting data from sensors and etc.
