@@ -1,8 +1,8 @@
-use structopt::StructOpt;
 use fa_cose::collect;
 use fa_cose::config::parse_config;
 use fa_cose::file::FileHandler;
 use fa_cose::terminal::Terminal;
+use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
 struct Cli {

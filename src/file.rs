@@ -1,5 +1,5 @@
-use std::fs;
 use crate::{Actuator, Sensor};
+use std::fs;
 
 pub struct FileHandler;
 
@@ -16,9 +16,7 @@ impl Actuator<String> for FileHandler {
 impl Sensor<String> for FileHandler {
     fn read(&self, id: &str) -> Result<String, &'static str> {
         match fs::read_to_string(id) {
-            Ok(contents) => {
-                Ok(contents)
-            }
+            Ok(contents) => Ok(contents),
             Err(error) => {
                 println!("{}", error);
                 Err("Unable to read file")

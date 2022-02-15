@@ -1,6 +1,6 @@
-pub mod terminal;
-pub mod file;
 pub mod config;
+pub mod file;
+pub mod terminal;
 
 pub trait Sensor<T> {
     fn read(&self, id: &str) -> Result<T, &'static str>;

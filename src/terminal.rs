@@ -1,5 +1,5 @@
-use std::process::{Command, Output};
 use crate::{Actuator, Publisher, Sensor};
+use std::process::{Command, Output};
 
 pub struct Terminal;
 
