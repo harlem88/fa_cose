@@ -1,4 +1,4 @@
-name: Build fa_cose
+name: Build
 
 on:
   # Run when pushing to stable branches
