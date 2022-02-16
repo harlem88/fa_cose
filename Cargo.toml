@@ -10,3 +10,5 @@ gpio-cdev = "0.5.1"
 quicli = "0.4"
 structopt = "0.3"
 yaml-rust = "0.4.5"
+tokio = { version = "1.17.0", features = ["time", "rt-multi-thread", "macros"] }
+

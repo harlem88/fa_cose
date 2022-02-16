@@ -10,6 +10,7 @@ pub struct Sensors {
 pub struct File {
     name: String,
     path: String,
+    interval: i64,
 }
 
 pub fn parse_config(config_file: &str) -> Result<Sensors, &'static str> {
@@ -27,10 +28,11 @@ pub fn parse_config(config_file: &str) -> Result<Sensors, &'static str> {
 }
 
 impl File {
-    fn new(name: &str, path: &str) -> File {
+    fn new(name: &str, path: &str, interval: i64) -> File {
         File {
             name: name.clone().to_string(),
             path: path.clone().to_string(),
+            interval,
         }
     }
 
@@ -39,6 +41,10 @@ impl File {
         abs_path.push_str("/");
         abs_path.push_str(self.name.clone().as_str());
         abs_path
+    }
+
+    pub fn get_interval(&self) -> u64 {
+        self.interval as u64
     }
 }
 
@@ -55,8 +61,13 @@ fn parse_sensor_file(doc: &yaml::Yaml) -> Option<File> {
                 .map(|name| name.as_str())
                 .unwrap_or(None);
 
-            if name.is_some() && path.is_some() {
-                Some(File::new(name.unwrap(), path.unwrap()))
+            let interval = v
+                .get(&Yaml::String("interval".to_string()))
+                .map(|interval| interval.as_i64())
+                .unwrap_or(None);
+
+            if name.is_some() && path.is_some() && interval.is_some() {
+                Some(File::new(name.unwrap(), path.unwrap(), interval.unwrap()))
             } else {
                 None
             }
