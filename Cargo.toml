@@ -11,4 +11,6 @@ quicli = "0.4"
 structopt = "0.3"
 yaml-rust = "0.4.5"
 tokio = { version = "1.17.0", features = ["time", "rt-multi-thread", "macros"] }
-
+astarte_sdk = { git = "https://github.com/astarte-platform/astarte-device-sdk-rust", branch = "master"}
+kv = "0.23.1"
+futures = "0.3"

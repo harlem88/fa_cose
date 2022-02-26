@@ -25,7 +25,7 @@ pub struct File {
     path: String,
     interval: i64,
     interface_name: String,
-    interface_endpoint: String
+    interface_endpoint: String,
 }
 
 pub fn parse_config(config_file: &str) -> Result<FaCoseConfig, &'static str> {
@@ -33,8 +33,8 @@ pub fn parse_config(config_file: &str) -> Result<FaCoseConfig, &'static str> {
         Ok(contents) => {
             let docs = YamlLoader::load_from_str(contents.as_str()).unwrap();
             let doc = &docs[0];
-            let astarte_params =
-                parse_astarte_device_params(&doc["astarte_device"]).ok_or("Unable to parse astarte_device in config");
+            let astarte_params = parse_astarte_device_params(&doc["astarte_device"])
+                .ok_or("Unable to parse astarte_device in config");
             let sensors = parse_sensors(&doc["sensors"]).ok_or("Unable to parse sensors in config");
             if astarte_params.is_ok() && sensors.is_ok() {
                 Ok(FaCoseConfig {
@@ -53,13 +53,19 @@ pub fn parse_config(config_file: &str) -> Result<FaCoseConfig, &'static str> {
 }
 
 impl File {
-    fn new(name: &str, path: &str, interval: i64, interface_name: &str, interface_endpoint: &str) -> File {
+    fn new(
+        name: &str,
+        path: &str,
+        interval: i64,
+        interface_name: &str,
+        interface_endpoint: &str,
+    ) -> File {
         File {
             name: name.clone().to_string(),
             path: path.clone().to_string(),
             interval,
             interface_name: interface_name.clone().to_string(),
-            interface_endpoint: interface_endpoint.clone().to_string()
+            interface_endpoint: interface_endpoint.clone().to_string(),
         }
     }
 
@@ -74,7 +80,11 @@ impl File {
         let mut abs_path = self.path.clone();
         abs_path.push_str("/");
         abs_path.push_str(self.name.clone().as_str());
-        Topic { id: abs_path, name: self.interface_name.clone(), path: self.interface_endpoint.clone() }
+        Topic {
+            id: abs_path,
+            name: self.interface_name.clone(),
+            path: self.interface_endpoint.clone(),
+        }
     }
 
     pub fn get_interval(&self) -> u64 {
@@ -148,14 +158,19 @@ fn parse_sensor_file(doc: &yaml::Yaml) -> Option<File> {
                 .map(|interface_endpoint| interface_endpoint.as_str())
                 .unwrap_or(None);
 
-            if name.is_some() && path.is_some() && interval.is_some()
-                && interface_name.is_some() && interface_endpoint.is_some() {
-                Some(File::new(name.unwrap(),
-                               path.unwrap(),
-                               interval.unwrap(),
-                               interface_name.unwrap(),
-                               interface_endpoint.unwrap())
-                )
+            if name.is_some()
+                && path.is_some()
+                && interval.is_some()
+                && interface_name.is_some()
+                && interface_endpoint.is_some()
+            {
+                Some(File::new(
+                    name.unwrap(),
+                    path.unwrap(),
+                    interval.unwrap(),
+                    interface_name.unwrap(),
+                    interface_endpoint.unwrap(),
+                ))
             } else {
                 None
             }

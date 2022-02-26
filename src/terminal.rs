@@ -1,6 +1,8 @@
-use crate::{Actuator, Publisher, Sensor};
 use std::process::{Command, Output};
 
+use crate::{Actuator, Publisher, Sensor, Topic};
+
+#[derive(Clone)]
 pub struct Terminal;
 
 impl Terminal {
@@ -25,7 +27,7 @@ impl Terminal {
 }
 
 impl Actuator<String> for Terminal {
-    fn write(&self, id: &str, value: &String) {
+    fn write(&self, _: &str, value: &String) {
         let output = self.run_command(value.as_str());
 
         if output.is_err() {
@@ -53,13 +55,13 @@ impl Sensor<String> for Terminal {
 }
 
 impl Publisher<String> for Terminal {
-    fn publish(&self, path: &str, value: String) {
-        println!("publish path {} -> {}", path, value)
+    fn publish(&self, topic: &Topic, value: String) {
+        println!("publish path {} -> {}", topic.id, value)
     }
 }
 
 impl Publisher<i32> for Terminal {
-    fn publish(&self, path: &str, value: i32) {
-        println!("publish path {} -> {}", path, value)
+    fn publish(&self, topic: &Topic, value: i32) {
+        println!("publish path {} -> {}", topic.id, value)
     }
 }
