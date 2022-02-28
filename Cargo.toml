@@ -14,3 +14,5 @@ tokio = { version = "1.17.0", features = ["time", "rt-multi-thread", "macros"] }
 astarte_sdk = { git = "https://github.com/astarte-platform/astarte-device-sdk-rust", branch = "master"}
 kv = "0.23.1"
 futures = "0.3"
+colored = "2"
+

@@ -1,5 +1,6 @@
 use structopt::StructOpt;
 
+use colored::*;
 use fa_cose::astarte::{init_astarte, Astarte};
 use fa_cose::config::parse_config;
 use fa_cose::file::FileHandler;
@@ -10,9 +11,22 @@ struct Cli {
     config_file: String,
 }
 
+const BANNER: &str = r#"
+    $$$$$$$$\  $$$$$$\         $$$$$$\   $$$$$$\   $$$$$$\  $$$$$$$$\
+    $$  _____|$$  __$$\       $$  __$$\ $$  __$$\ $$  __$$\ $$  _____|
+    $$ |      $$ /  $$ |      $$ /  \__|$$ /  $$ |$$ /  \__|$$ |
+    $$$$$\    $$$$$$$$ |      $$ |      $$ |  $$ |\$$$$$$\  $$$$$\
+    $$  __|   $$  __$$ |      $$ |      $$ |  $$ | \____$$\ $$  __|
+    $$ |      $$ |  $$ |      $$ |  $$\ $$ |  $$ |$$\   $$ |$$ |
+    $$ |      $$ |  $$ |      \$$$$$$  | $$$$$$  |\$$$$$$  |$$$$$$$$\
+    \__|      \__|  \__|       \______/  \______/  \______/ \________|
+
+    "#;
+
 #[tokio::main]
 async fn main() {
-    println!("=== FA COSE ===");
+    let banner = format!("{}v{}\n", BANNER, env!("CARGO_PKG_VERSION"));
+    println!("{}", banner.green().bold());
 
     let args = Cli::from_args();
     if args.config_file.is_empty() {
